@@ -20,11 +20,12 @@ const scene = new THREE.Scene()
 
 const gltfLoader = new GLTFLoader()
 // gltfLoader.setDRACOLoader(dracoLoader)
-
+let ant = null
 gltfLoader.load(
 	'/models/ant.glb',
 	(gltf) => {
-        gltf.scene.scale.set(0.01, 0.01, 0.01)
+        ant = gltf.scene
+        gltf.scene.scale.set(1, 1, 1)
         gltf.scene.position.y += 0.001
 		scene.add(gltf.scene);
     }
@@ -99,7 +100,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 
 const clock = new THREE.Clock()
-
+let t = 0
 const tick = () =>
 {
 
@@ -107,7 +108,10 @@ const tick = () =>
 
     //update floor
     // floor.position.set(camera.position.x-1, camera.position.y-1, camera.position.z)
-
+    if(ant) {
+        t += 0.01
+        ant.position.set(20 * Math.cos(t) + 0, 0, 20 * Math.sin(t) + 0)
+    }
     // Update objects
     // sphere.rotation.y = .5 * elapsedTime
 
